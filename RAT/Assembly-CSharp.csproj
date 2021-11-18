@@ -59,8 +59,11 @@
     <Compile Include="Assets\StarterAssets\Mobile\Scripts\VirtualInputs\UIVirtualButton.cs" />
     <Compile Include="Assets\StarterAssets\InputSystem\StarterAssetsInputs.cs" />
     <Compile Include="Assets\Scripts\Iinput.cs" />
+    <Compile Include="Assets\Scripts\Cablebite.cs" />
+    <Compile Include="Assets\buttontrigger.cs" />
     <Compile Include="Assets\StarterAssets\ThirdPersonController\Scripts\BasicRigidBodyPush.cs" />
     <Compile Include="Assets\StarterAssets\TutorialInfo\Scripts\Readme.cs" />
+    <Compile Include="Assets\triggerscript.cs" />
     <Compile Include="Assets\Scripts\AgentMovement.cs" />
     <Compile Include="Assets\Scripts\AgentController.cs" />
     <Compile Include="Assets\StarterAssets\Mobile\Scripts\CanvasInputs\UICanvasControllerInput.cs" />
@@ -68,9 +71,8 @@
     <Compile Include="Assets\StarterAssets\Mobile\Scripts\Utilities\MobileDisableAutoSwitchControls.cs" />
     <Compile Include="Assets\StarterAssets\ThirdPersonController\Scripts\ThirdPersonController.cs" />
     <Compile Include="Assets\thirdpersonmovementscript.cs" />
-    <Compile Include="Assets\buttontrigger.cs" />
-    <Compile Include="Assets\triggerscript.cs" />
-    <Compile Include="Assets\Scripts\Cablebite.cs" />
+    <Compile Include="Assets\Scripts\Cabledestroyscript.cs" />
+    <Compile Include="Assets\Scripts\Falltrigger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\StarterAssets\Environment\Shaders\Built-in_RP\Triplanar.shader" />
