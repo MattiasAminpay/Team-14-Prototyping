@@ -29,7 +29,9 @@ public class Cablebite : MonoBehaviour
             {
                 Destroy(itemToDestroy);
             }
+             FindObjectOfType<AudioManager>().Play("Ratbite1");
         }
+
     }
 }
 

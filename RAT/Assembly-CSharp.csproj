@@ -73,8 +73,12 @@
     <Compile Include="Assets\StarterAssets\ThirdPersonController\Scripts\ThirdPersonController.cs" />
     <Compile Include="Assets\thirdpersonmovementscript.cs" />
     <Compile Include="Assets\Scripts\Falltrigger.cs" />
-    <Compile Include="Assets\Scripts\PickUp.cs" />
     <Compile Include="Assets\Scripts\Secondpickupscript.cs" />
+    <Compile Include="Assets\Scripts\PickUp.cs" />
+    <Compile Include="Assets\Scripts\AudioManager.cs" />
+    <Compile Include="Assets\Scripts\Sound.cs" />
+    <Compile Include="Assets\Scripts\Headbobbingshit.cs" />
+    <Compile Include="Assets\animationcontroller.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\StarterAssets\Environment\Shaders\Built-in_RP\Triplanar.shader" />

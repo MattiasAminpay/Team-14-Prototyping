@@ -102,7 +102,8 @@ namespace StarterAssets
 
 		private void Start()
 		{
-			_hasAnimator = TryGetComponent(out _animator);
+			_animator = transform.GetChild(0).GetComponent<Animator>();
+			_hasAnimator = _animator != null;
 			_controller = GetComponent<CharacterController>();
 			_input = GetComponent<StarterAssetsInputs>();
 
@@ -115,8 +116,9 @@ namespace StarterAssets
 
 		private void Update()
 		{
-			_hasAnimator = TryGetComponent(out _animator);
-			
+			_animator = transform.GetChild(0).GetComponent<Animator>();
+			_hasAnimator = _animator != null;
+
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
