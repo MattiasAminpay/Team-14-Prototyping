@@ -1,10 +1,13 @@
-using System;
 using StarterAssets;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class EnemyAIDetection : MonoBehaviour
 {
+    [SerializeField] private EnemyAI ai;
+
     private LayerMask playerMask;
+    private SphereCollider sphereCol;
 
     private void OnTriggerStay(Collider other)
     {
@@ -27,8 +30,14 @@ public class EnemyAIDetection : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        sphereCol.radius = ai.detectionRadius;
+    }
+
     private void Awake()
     {
+        sphereCol = GetComponent<SphereCollider>();
         playerMask = LayerMask.GetMask("Player");
     }
 

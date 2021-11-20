@@ -1,17 +1,16 @@
-using System;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
     private const float WALK_THRESHOLD = .5f;
 
-    [SerializeField] private Transform[] patrolPoints;
+    [SerializeField] private Transform patrolPointsParent;
     [SerializeField, Range(0f, 10f)] private float walkSpeed = 5f;
-    [SerializeField, Range(0f, 10f)] private float detectionRadius = 5f;
+    [SerializeField, Range(0f, 10f)] public float detectionRadius = 5f;
 
     private Vector3 walkVelocity;
     private Rigidbody body;
-    private SphereCollider sphereCol;
+    private Transform[] patrolPoints;
     private int patrolIndex;
 
     private int PatrolIndex
@@ -44,12 +43,15 @@ public class EnemyAI : MonoBehaviour
         walkVelocity = (patrolPoints[PatrolIndex].position - transform.position).normalized * walkSpeed;
     }
 
+    private void Start()
+    {
+        patrolPoints = patrolPointsParent.GetComponentsInChildren<Transform>();
+    }
+
     private void Awake()
     {
         body = GetComponent<Rigidbody>();
         walkVelocity = (patrolPoints[PatrolIndex].position - transform.position).normalized * walkSpeed;
-        sphereCol = GetComponentInChildren<SphereCollider>();
-        sphereCol.radius = detectionRadius;
     }
 
     private void OnDrawGizmos()
