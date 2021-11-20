@@ -1,21 +1,22 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    
     private const float WALK_THRESHOLD = .5f;
 
     [SerializeField] private Transform patrolPointsParent;
     [SerializeField, Range(0f, 10f)] private float walkSpeed = 5f;
     [SerializeField, Range(0f, 10f)] public float detectionRadius = 5f;
-    
+
     public bool hideVisual = false;
 
     private Vector3 walkVelocity;
     private Rigidbody body;
     private Transform[] patrolPoints;
     private int patrolIndex;
+    private Quaternion targetRotation;
 
     private int PatrolIndex
     {
@@ -28,28 +29,32 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    private IEnumerator Patrol()
     {
-        Patrol();
-    }
+        while (true)
+        {
+            Vector3 walkTo = new Vector3(patrolPoints[patrolIndex].position.x, 0f,
+                patrolPoints[patrolIndex].position.z);
+            Vector3 walkFrom = new Vector3(transform.position.x, 0f, transform.position.z);
+            Vector3 relativePos = walkTo - walkFrom;
+            
+            if (relativePos.magnitude < WALK_THRESHOLD)
+            {
+                PatrolIndex++;
+                yield return new WaitForSeconds(1.5f);
+            }
 
-    private void Patrol()
-    {
-        UpdatePatrolPoint();
-        body.velocity = walkVelocity;
-    }
+            targetRotation = Quaternion.LookRotation(relativePos.normalized);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, .05f);
 
-    private void UpdatePatrolPoint()
-    {
-        if (Vector3.Distance(patrolPoints[patrolIndex].position, transform.position) > WALK_THRESHOLD) return;
-
-        PatrolIndex++;
-        walkVelocity = (patrolPoints[PatrolIndex].position - transform.position).normalized * walkSpeed;
+            body.velocity = relativePos.normalized * walkSpeed;
+            yield return new WaitForFixedUpdate();
+        }
     }
 
     private void Start()
     {
-        walkVelocity = (patrolPoints[PatrolIndex].position - transform.position).normalized * walkSpeed;
+        StartCoroutine(Patrol());
     }
 
     private void Awake()
