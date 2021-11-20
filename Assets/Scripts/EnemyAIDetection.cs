@@ -8,6 +8,7 @@ public class EnemyAIDetection : MonoBehaviour
 
     private LayerMask playerMask;
     private SphereCollider sphereCol;
+    [SerializeField] private Transform visual;
 
     private void OnTriggerStay(Collider other)
     {
@@ -32,7 +33,18 @@ public class EnemyAIDetection : MonoBehaviour
 
     private void Update()
     {
+        if (ai.hideVisual)
+        {
+            visual.gameObject.SetActive(false);
+        }
+        else
+        {
+            visual.gameObject.SetActive(true);
+            float detectionDiameter = ai.detectionRadius * 2;
+            visual.localScale = new Vector3(detectionDiameter, detectionDiameter, detectionDiameter); 
+        }
         sphereCol.radius = ai.detectionRadius;
+        transform.position = ai.transform.position;
     }
 
     private void Awake()
