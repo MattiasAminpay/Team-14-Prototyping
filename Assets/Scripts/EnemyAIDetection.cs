@@ -1,3 +1,4 @@
+using System;
 using StarterAssets;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ using UnityEngine;
 public class EnemyAIDetection : MonoBehaviour
 {
     [SerializeField] private EnemyAI ai;
+    [SerializeField] private EnemyDetectionUI detect;
 
     private LayerMask playerMask;
     private SphereCollider sphereCol;
@@ -14,21 +16,36 @@ public class EnemyAIDetection : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            if (!Physics.Raycast(transform.position, ratPos, ratPos.magnitude, ~playerMask))
+            {
+                detect.seeing = true;
+                print("death has found you, the rotund rat");
+            }
+            else
+            {
+                detect.seeing = false;
+            }
+            
             ratPos = other.transform.position - transform.position;
             ratPos.y += .4f;
             float sneakySpeed = other.GetComponent<ThirdPersonController>().SprintSpeed;
             float currSpeed = other.GetComponent<ThirdPersonController>()._speed;
             if (currSpeed > sneakySpeed + .2f)
             {
+                detect.hearing = true;
                 print("death has found you, the ear-splitting rat");
-                return;
             }
-
-            if (!Physics.Raycast(transform.position, ratPos, ratPos.magnitude, ~playerMask))
+            else
             {
-                print("death has found you, the rotund rat");
+                detect.hearing = false;
             }
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        detect.hearing = false;
+        detect.seeing = false;
     }
 
     private void Update()
