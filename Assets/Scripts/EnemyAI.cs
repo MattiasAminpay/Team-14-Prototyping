@@ -9,14 +9,14 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private Transform patrolPointsParent;
     [SerializeField, Range(0f, 10f)] private float walkSpeed = 5f;
     [SerializeField, Range(0f, 10f)] public float detectionRadius = 5f;
+    [SerializeField, Range(0f, 5f)] public float detectionTime = 2f;
 
     public bool hideVisual = false;
 
-    private Vector3 walkVelocity;
+    private Quaternion targetRotation;
     private Rigidbody body;
     private Transform[] patrolPoints;
     private int patrolIndex;
-    private Quaternion targetRotation;
 
     private int PatrolIndex
     {
@@ -47,7 +47,9 @@ public class EnemyAI : MonoBehaviour
             targetRotation = Quaternion.LookRotation(relativePos.normalized);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, .05f);
 
-            body.velocity = relativePos.normalized * walkSpeed;
+            Vector3 newVelocity = relativePos.normalized * walkSpeed;
+            newVelocity.y = body.velocity.y;
+            body.velocity = newVelocity;
             yield return new WaitForFixedUpdate();
         }
     }
