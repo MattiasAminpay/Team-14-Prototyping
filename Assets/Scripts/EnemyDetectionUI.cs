@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyDetectionUI : MonoBehaviour
 {
@@ -43,6 +45,11 @@ public class EnemyDetectionUI : MonoBehaviour
             size.x -= Time.deltaTime / ai.detectionTime;
         }
 
+        if (size.x > 1f)
+        {
+            SceneManager.LoadScene("GameOver");
+            return;
+        }
         float sizeX = Mathf.Clamp(size.x, 0f, 1f);
         size.x = sizeX;
         detectionBar.localScale = size;
