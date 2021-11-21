@@ -27,8 +27,9 @@ public class EnemyAIDetection : MonoBehaviour
 
             ratPos = other.transform.position - transform.position;
             ratPos.y += .4f;
-            float sneakySpeed = other.GetComponent<ThirdPersonController>().SprintSpeed;
-            float currSpeed = other.GetComponent<ThirdPersonController>()._speed;
+            ThirdPersonController playerCtrl = other.GetComponent<ThirdPersonController>();
+            float sneakySpeed = playerCtrl.SprintSpeed;
+            float currSpeed = playerCtrl._speed;
             if (currSpeed > sneakySpeed + .2f)
             {
                 detect.hearing = true;
@@ -37,6 +38,11 @@ public class EnemyAIDetection : MonoBehaviour
             else
             {
                 detect.hearing = false;
+            }
+
+            if (detect.seeing || detect.hearing)
+            {
+                playerCtrl.detectionHUD.AddArrow(detect);
             }
         }
     }
@@ -47,14 +53,6 @@ public class EnemyAIDetection : MonoBehaviour
         {
             detect.hearing = false;
             detect.seeing = false;
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            other.GetComponent<ThirdPersonController>().detectionHUD.AddArrow(detect);
         }
     }
 
