@@ -5,10 +5,10 @@ public class EnemyDetectionUI : MonoBehaviour
 {
     [HideInInspector] public bool seeing;
     [HideInInspector] public bool hearing;
+    [HideInInspector] public Vector2 size;
 
     [SerializeField] private RectTransform detectionBar;
 
-    private Vector2 size;
     private EnemyAI ai;
 
     private void Start()

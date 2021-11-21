@@ -1,4 +1,3 @@
-using System;
 using StarterAssets;
 using UnityEngine;
 
@@ -25,7 +24,7 @@ public class EnemyAIDetection : MonoBehaviour
             {
                 detect.seeing = false;
             }
-            
+
             ratPos = other.transform.position - transform.position;
             ratPos.y += .4f;
             float sneakySpeed = other.GetComponent<ThirdPersonController>().SprintSpeed;
@@ -44,8 +43,19 @@ public class EnemyAIDetection : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        detect.hearing = false;
-        detect.seeing = false;
+        if (other.CompareTag("Player"))
+        {
+            detect.hearing = false;
+            detect.seeing = false;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            other.GetComponent<ThirdPersonController>().detectionHUD.AddArrow(detect);
+        }
     }
 
     private void Update()
@@ -58,8 +68,9 @@ public class EnemyAIDetection : MonoBehaviour
         {
             visual.gameObject.SetActive(true);
             float detectionDiameter = ai.detectionRadius * 2;
-            visual.localScale = new Vector3(detectionDiameter, detectionDiameter, detectionDiameter); 
+            visual.localScale = new Vector3(detectionDiameter, detectionDiameter, detectionDiameter);
         }
+
         sphereCol.radius = ai.detectionRadius;
         transform.position = ai.transform.position;
     }
