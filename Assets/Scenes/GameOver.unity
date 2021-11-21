@@ -238,7 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a52c86d29936241abebd591a6c90ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToRetry: AITestingScene
+  sceneToRetry: testbuilding
 --- !u!1 &87456066
 GameObject:
   m_ObjectHideFlags: 0

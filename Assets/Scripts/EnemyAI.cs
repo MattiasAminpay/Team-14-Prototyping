@@ -12,6 +12,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField, Range(0f, 5f)] public float detectionTime = 2f;
 
     public bool hideVisual = false;
+    public bool canKill = true;
 
     private Quaternion targetRotation;
     private Rigidbody body;

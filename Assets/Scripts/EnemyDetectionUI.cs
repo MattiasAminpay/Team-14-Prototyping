@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -45,7 +44,7 @@ public class EnemyDetectionUI : MonoBehaviour
             size.x -= Time.deltaTime / ai.detectionTime;
         }
 
-        if (size.x > 1f)
+        if (size.x > 1f && ai.canKill)
         {
             SceneManager.LoadScene("GameOver");
             return;
