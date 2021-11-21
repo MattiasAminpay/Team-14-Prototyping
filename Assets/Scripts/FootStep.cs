@@ -1,12 +1,14 @@
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(AudioSource))]
 
 public class FootStep : MonoBehaviour
 {
 
-    [SerializeField] AudioClip[] audioClip;
-
+    [SerializeField] private AudioClip[] hardSteps;
+    [SerializeField] private AudioClip[] softSteps;
+    
     private AudioSource audioSource;
 
     private void Awake()
@@ -17,23 +19,31 @@ public class FootStep : MonoBehaviour
 
     //the animation event
 
-    private void Step()
+    public void Step(AnimationEvent animationEvent)
     {
-        AudioClip clip = GetRandomClip();
-
-        audioSource.PlayOneShot(clip);
+        if(animationEvent.animatorClipInfo.weight > 0.5) {
+            AudioClip clip = GetRandomHardStep();
+            audioSource.PlayOneShot(clip);
+        }
     }
 
-    private void StepSoft()
+    public void StepSoft(AnimationEvent animationEvent)
     {
-        AudioClip clip = GetRandomClip();
-
-        audioSource.PlayOneShot(clip);
+        if(animationEvent.animatorClipInfo.weight > 0.5) {
+            AudioClip clip = GetRandomSoftStep();
+            audioSource.PlayOneShot(clip);
+        }
     }
 
-    private AudioClip GetRandomClip()
+    private AudioClip GetRandomHardStep()
     {
-        int index = Random.Range(0, audioClip.Length - 1);
-        return audioClip[index];
+        int index = Random.Range(0, hardSteps.Length - 1);
+        return hardSteps[index];
+    }
+    
+    private AudioClip GetRandomSoftStep()
+    {
+        int index = Random.Range(0, softSteps.Length - 1);
+        return softSteps[index];
     }
 }
