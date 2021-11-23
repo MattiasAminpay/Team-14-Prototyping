@@ -10,6 +10,7 @@ public class EnemyDetectionUI : MonoBehaviour
     [SerializeField] private RectTransform detectionBar;
 
     private EnemyAI ai;
+    private AudioSource sound;
 
     private void Start()
     {
@@ -19,6 +20,7 @@ public class EnemyDetectionUI : MonoBehaviour
     private void Awake()
     {
         ai = GetComponentInParent<EnemyAI>();
+        sound = GetComponentInParent<AudioSource>();
     }
 
     private void Update()
@@ -49,8 +51,19 @@ public class EnemyDetectionUI : MonoBehaviour
             SceneManager.LoadScene("GameOver");
             return;
         }
+
+        if (size.x <= 0)
+        {
+            sound.Stop();
+        }
+        else if (!sound.isPlaying)
+        {
+            sound.Play();
+        }
+
         float sizeX = Mathf.Clamp(size.x, 0f, 1f);
         size.x = sizeX;
+        sound.pitch = sizeX * 3;
         detectionBar.localScale = size;
     }
 
