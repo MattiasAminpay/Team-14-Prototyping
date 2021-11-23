@@ -266,6 +266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   seeing: 0
   hearing: 0
+  size: {x: 0, y: 0}
   detectionBar: {fileID: 7186303535032336180}
 --- !u!1 &5562848194111224972
 GameObject:
@@ -377,10 +378,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patrolPointsParent: {fileID: 5562848195442506151}
+  patrolTime: 1.5
   walkSpeed: 1
   detectionRadius: 5
   detectionTime: 2
+  enemyFOV: 180
   hideVisual: 0
+  canKill: 1
 --- !u!33 &5562848194163612707
 MeshFilter:
   m_ObjectHideFlags: 0

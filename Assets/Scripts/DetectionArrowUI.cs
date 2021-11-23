@@ -1,7 +1,10 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DetectionArrowUI : MonoBehaviour
 {
+    [SerializeField] private Image arrowToFill;
+
     [HideInInspector] public EnemyDetectionUI enemyDetection;
 
     private Transform camera;
@@ -10,6 +13,13 @@ public class DetectionArrowUI : MonoBehaviour
     private float spawnTime;
 
     private void Update()
+    {
+        arrowToFill.fillAmount = enemyDetection.size.x;
+        
+        Rotate();
+    }
+
+    private void Rotate()
     {
         Vector2 enemyPos = new Vector2(enemyDetection.transform.position.x, enemyDetection.transform.position.z);
         Vector2 cameraPos = new Vector2(camera.position.x, camera.position.z);

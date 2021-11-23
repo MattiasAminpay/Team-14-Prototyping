@@ -6,40 +6,31 @@ public class EnemyAIDetection : MonoBehaviour
 {
     [SerializeField] private EnemyAI ai;
     [SerializeField] private EnemyDetectionUI detect;
-
-    private LayerMask playerMask;
-    private SphereCollider sphereCol;
     [SerializeField] private Transform visual;
+
+    private LayerMask _playerMask;
+    private SphereCollider _sphereCol;
 
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            if (!Physics.Raycast(transform.position, ratPos, ratPos.magnitude, ~playerMask))
-            {
-                detect.seeing = true;
-                print("death has found you, the rotund rat");
-            }
-            else
-            {
-                detect.seeing = false;
-            }
-
-            ratPos = other.transform.position - transform.position;
-            ratPos.y += .4f;
             ThirdPersonController playerCtrl = other.GetComponent<ThirdPersonController>();
             float sneakySpeed = playerCtrl.SprintSpeed;
             float currSpeed = playerCtrl._speed;
-            if (currSpeed > sneakySpeed + .2f)
-            {
-                detect.hearing = true;
-                print("death has found you, the ear-splitting rat");
-            }
-            else
-            {
-                detect.hearing = false;
-            }
+            
+            detect.hearing = currSpeed > sneakySpeed + .2f;
 
+            Vector3 ratPos = other.transform.position - transform.position;
+            ratPos.y += .4f;
+            Vector2 forward = new Vector2(ai.transform.forward.normalized.x, ai.transform.forward.normalized.z);
+            Vector2 ratPosNorm = new Vector2(ratPos.normalized.x, ratPos.normalized.z);
+            float dot = Vector2.Dot(forward, ratPosNorm);
+            float ang = Mathf.Acos(dot) * Mathf.Rad2Deg;
+
+            detect.seeing = !Physics.Raycast(transform.position, ratPos, ratPos.magnitude, ~_playerMask)
+                            && ang < ai.enemyFOV / 2f;
+            
             if (detect.seeing || detect.hearing)
             {
                 playerCtrl.detectionHUD.AddArrow(detect);
@@ -58,6 +49,11 @@ public class EnemyAIDetection : MonoBehaviour
 
     private void Update()
     {
+        HideSoundSphere();
+    }
+
+    private void HideSoundSphere()
+    {
         if (ai.hideVisual)
         {
             visual.gameObject.SetActive(false);
@@ -69,21 +65,13 @@ public class EnemyAIDetection : MonoBehaviour
             visual.localScale = new Vector3(detectionDiameter, detectionDiameter, detectionDiameter);
         }
 
-        sphereCol.radius = ai.detectionRadius;
+        _sphereCol.radius = ai.detectionRadius;
         transform.position = ai.transform.position;
     }
 
     private void Awake()
     {
-        sphereCol = GetComponent<SphereCollider>();
-        playerMask = LayerMask.GetMask("Player");
-    }
-
-    private Vector3 ratPos;
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawRay(transform.position, ratPos);
+        _sphereCol = GetComponent<SphereCollider>();
+        _playerMask = LayerMask.GetMask("Player");
     }
 }
